@@ -1,0 +1,126 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+@section scripts {
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script type="text/javascript">
+        function getHeader() {
+            $.ajax({
+                type: "GET",
+                url: "/api/job/",
+                success: function(data) {
+                    $('#Jobs').empty();
+                    for (var i = 0; i < data.length; i++) {
+                        $('#Jobs').append("<option value='" + data[i].Job_id + "'>"
+                            + data[i].Job_nm + "</option>");
+                    }
+                    getApiData($('#Jobs').val(), 1, "Name", "asc");
+                }
+            });
+        }
+
+        function getApiData(job_id, page, sortBy, kindOfSort) {
+            $.ajax({
+                    type: "GET",
+                    url: "/api/employee?job_id=" + job_id + "&page=" + page + "&sortBy=" + sortBy + "&kindOfSort=" + kindOfSort,
+                    success: function(data) {
+                        $('#result').empty();
+                        $('.pager').empty();
+                        $('#hidden').empty();
+                        $('#hidden').append("<input type='hidden' id='kindOfSort' value='" + data.KindOfSort + "' />" +
+                            "<input type='hidden' id='sortBy' value='" + data.SortBy + "' />");
+                        for (var i = 1; i <= data.PagingInfo.TotalPages; i++) {
+                            $('.pager').append("<input type='button' value='" + i.toString() + "' id='" + i.toString() + "'onclick='javascript:changePage(this);' />");
+                            if (i == data.PagingInfo.CurrentPage) {
+                                $('#' + i.toString()).addClass("selected");
+                            }
+                        }
+                        for (var j = 0; j <= data.Employees.length; j++) {
+                            if (data.IsSalaryEditable) {
+                                $('#result').append("<div class='item' id='" + data.Employees[j].Emp_id + "'><div class='leftAndHalf'>" +
+                                    "<input type='text'  value='" + data.Employees[j].First_name + " " + data.Employees[j].Last_name + "' id='First_name' readonly/></div>" +
+                                    "<div class='rightAndHalf'>" +
+                                    "<input type='text' value='" + data.Employees[j].Salary + "' id='" + data.Employees[j].Emp_id + "' onchange='javascript:changeField(this);' /></div>" +
+                                    "</div>");
+                            } else {
+                                $('#result').append("<div class='item' id='" + data.Employees[j].Emp_id + "'><div class='leftAndHalf'>" +
+                                    "<input type='text' value='" + data.Employees[j].First_name + " " + data.Employees[j].Last_name + "' id='First_name' readonly/></div>" +
+                                    "<div class='rightAndHalf'>" +
+                                    "<input type='text' value='" + data.Employees[j].Salary + "' id='" + data.Employees[j].Emp_id + "' readonly /></div>" +
+                                    "</div>");
+                            }
+                        }
+                    }
+                }
+            );
+        }
+        
+        function putData(emp_id, salary) {
+            var employee = new Object();
+            employee.Emp_id = emp_id;
+            employee.Salary = salary;
+            
+            $.ajax({
+                type: "PUT",
+                url: "/api/employee/",
+                data: employee,
+                error: function (xhr) {
+                    alert(xhr.responseText);
+                }
+            });
+        }
+        
+        function changePage(e) {
+            getApiData($('#Jobs').val(), $(e).attr("id"), "Name", "asc");
+        }
+        
+        function changeField(e) {
+            putData($(e).attr("id"), $(e).attr("value"));
+        }
+        
+        function sortData(e) {
+            var kindOfSort = $("#kindOfSort").val();
+            if ($(e).attr("id") == "sortByName") {
+                if (kindOfSort == "asc") {
+                    getApiData($('#Jobs').val(), 1, "Name", "desc");
+                } else {
+                    getApiData($('#Jobs').val(), 1, "Name", "asc");
+                }
+            } else {
+                if (kindOfSort == "asc") {
+                    getApiData($('#Jobs').val(), 1, "Salary", "desc");
+                } else {
+                    getApiData($('#Jobs').val(), 1, "Salary", "asc");
+                }
+            }       
+        }
+
+        $(document).ready(function() {
+            getHeader();
+            $('#Jobs').change(function() {
+                getApiData($('#Jobs').val(), 1, "Name", "asc");
+            });
+        });
+    </script>
+}
+<div class="title">
+    <div class="leftAndHalf">
+        <span>Job title:</span>
+    </div>
+    <div class="rightAndHalf">
+        <select id='Jobs' name='Jobs'></select>
+    </div>
+</div>
+<div>
+    <div class="dataheader">
+        <div id='hidden'></div>
+        <div class="leftAndHalf">
+            <span class="leftAndHalf" id="sortByName" onclick="javascript:sortData(this);">Full name</span>
+        </div>
+        <div class="rightAndHalf">
+            <span class="leftAndHalf" id="sortBySalary" onclick="javascript:sortData(this);">Salary</span>
+        </div>
+    </div>
+    <div id="result"></div>
+    <div class="pager"></div>
+</div>

@@ -1,0 +1,167 @@
+﻿body {
+    font-size: .85em;
+    font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
+    color: #232323;
+    background-color: #fff;
+}
+
+header, footer, nav, section {
+    display: block;
+}
+
+
+/* Styles for basic forms
+-----------------------------------------------------------*/
+fieldset {
+    border: 1px solid #ddd;
+    padding: 0 1.4em 1.4em 1.4em;
+    margin: 0 0 1.5em 0;
+}
+
+legend {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+textarea {
+    min-height: 75px;
+}
+
+.editor-label {
+    margin: 1em 0 0 0;
+}
+
+.editor-field {
+    margin: 0.5em 0 0 0;
+}
+
+
+/* Styles for validation helpers
+-----------------------------------------------------------*/
+.field-validation-error {
+    color: #f00;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+.input-validation-error {
+    border: 1px solid #f00;
+    background-color: #fee;
+}
+
+.validation-summary-errors {
+    font-weight: bold;
+    color: #f00;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+
+
+/* New style
+-----------------------------------------------------------*/
+DIV.pager { 
+    float:right;
+    text-align:right; 
+    border-top: 2px solid silver;
+    padding: .5em 0 0 0;
+    margin-top: 1em; 
+    width:100%;
+}
+
+DIV.pager input {
+     background:#000;
+     font-size: 1.1em;
+     color: White;
+     text-decoration: none;
+     margin: 0 .4em 0 .4em;
+     padding: 0 .4em 0 .4em;
+}
+
+DIV.pager input:hover {
+     background-color: Silver;
+     cursor:pointer;
+}
+
+DIV.pager input.selected {
+     background-color: Silver; 
+     color: White;
+}
+
+div#body {
+    width: 900px;
+    margin: 10px auto 0 auto;
+}
+
+DIV.item { 
+    float:right;
+    text-align:left; 
+    border-top: 2px dotted silver;
+    padding: .5em 0 0 0;
+    width:100%;
+    margin-bottom:1em;
+}
+
+    DIV.item input {
+        border:none;
+    }
+
+.title {
+    float:right;
+    border-bottom: 2px solid silver;
+    padding: .5em 0 .5em 0;
+    margin-top: 1em; 
+    width:100%;
+}
+
+.dataheader {
+    width:100%;
+    float:left;
+    background:#000;
+    color:#fff;
+    font-size: 1.5em;
+    font-weight:700;
+}
+
+.title span {
+    font-size: 2em;
+    color: #353535;
+    font-weight:700;
+}
+
+#Jobs {
+    font-size: 1.5em;
+    width:80%;
+}
+
+.rightAndHalf {
+    float:right;
+    width:45%;
+}
+
+.leftAndHalf{
+    float:left;
+    width:45%;
+}
+
+.noDisplay {
+    display: none;
+}
+
+.imgArrow{
+    float:right;
+    width:25px;
+    height:15px;
+    margin:5px;
+}
+
+.active {
+    border:1px groove #fff;
+}
+
+#sortBySalary, #sortByName {
+    cursor:pointer;
+}
